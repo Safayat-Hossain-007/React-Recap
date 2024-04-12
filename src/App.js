@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
 
@@ -11,11 +11,19 @@ function App() {
     {name:'Chrome-Book',price:'200$'}
   ];
 
-  const persons = [
-    {name:'Max  Vestappen', prof:'F1-Racer'},{name:'Mike Tyson', prof:'Boxer'},
-    {name:'Christiano Ronaldo',prof:'Footballer'},
-    {name:'Louis Hamilton', prof:'F1-racer'}
-  ];
+ 
+  const[persons,setPersons] = useState([]);
+  useEffect(()=>{
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then(data => setPersons(data));
+  },[])
+
+  // const persons = [
+  //   {name:'Max  Vestappen', prof:'F1-Racer'},{name:'Mike Tyson', prof:'Boxer'},
+  //   {name:'Christiano Ronaldo',prof:'Footballer'},
+  //   {name:'Louis Hamilton', prof:'F1-racer'}
+  // ];
   return (
     <div className="App">
       <header className="App-header">
@@ -27,7 +35,7 @@ function App() {
       
       <MovieCounter></MovieCounter>  
       {
-        persons.map(nx => <Person name={nx.name} prof={nx.prof}></Person>)
+        persons.map(nx => <Person name={nx.name} prof={nx.prof} key={nx.id} ></Person>)
       }
 
       {
